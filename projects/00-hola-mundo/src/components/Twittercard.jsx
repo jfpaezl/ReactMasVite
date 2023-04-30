@@ -1,6 +1,25 @@
 import styled from 'styled-components'
+import { useState } from 'react'
 
-export function Twittercard(){
+//para inicializar un estado con una prop la buena practica es nombrarla con initial al inicio
+export function Twittercard({userName, name, initialIsFollowing}){//usar simpre las props entre {} para que lo lea como java script
+    //crear hoocks 
+    //useState devuelve un arreglo con 2 posiciones el primero es para devolver el valor del estado y el segundo es para insertar una funcion que nos permite actualizar el estado
+    const [isFollowing, setIsFollowing] = useState(initialIsFollowing)
+    
+
+
+    //colocar las funciones que van a servir en el componente
+    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const bottonClassname = isFollowing ? 'tw-followCard-button is-following' : 'tw-followCard-button'
+    //primero se busca el boton que nos va a cambiar el estado y se crea una funcion para saber que hace cuando se le da onclick
+    const handleClick = () =>{
+        //se llama la funcion que nos prmite actualizar el estado y se le da la vuelta al estado
+        setIsFollowing(!isFollowing)
+    }
+
+
+    //realizar los elementos del componente
     return(
         <TwitterCardCss>
             <header className='tw-followCard-header'>
@@ -9,12 +28,16 @@ export function Twittercard(){
                     src="https://unavatar.io/reddit.com" 
                     alt="avatr" />
                 <div className='tw-followCard-info'>
-                    <strong>Oscar Verela</strong>
-                    <span className='tw-followCard-infoUserName'>@orcarkriblin</span>
+                    <strong>{name}</strong>
+                    <span className='tw-followCard-infoUserName'>@{userName}</span>
                 </div>
             </header>
             <aside>
-                <button className='tw-followCard-button'>Seguir</button>
+                <button className={bottonClassname} onClick={handleClick}>
+                    <span className='tw-followCard-text'>{text}</span>
+                    <span className='tw-followCard-stopFollow'>Dejar de seguir</span>
+                    
+                </button>
             </aside>
         </TwitterCardCss>
     )
